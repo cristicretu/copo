@@ -1,6 +1,19 @@
+"use client";
+
+import { socket } from "./../socket";
+
 export default function Home() {
   return (
     <div className="flex justify-center items-center h-screen bg-[#161616] text-white">
+      <button
+        onClick={() => {
+          console.log("Hello");
+
+          socket.emit("message", "Hello");
+        }}
+      >
+        Hello
+      </button>
       <div className="w-3/5">
         <div className="flex flex-col mb-6">
           <span className="font-semibold text-lg">copo.</span>
