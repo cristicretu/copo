@@ -25,3 +25,12 @@ body {
     text-wrap: balance;
   }
 }
+
+.glass {
+  background: rgba(30, 30, 30, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  /* box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); */
+}
