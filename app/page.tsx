@@ -1,19 +1,13 @@
 "use client";
 
-import { socket } from "./../socket";
+import { useEffect, useState, useMemo } from "react";
 
 export default function Home() {
+  const [message, setMessage] = useState<String>();
+  const [messageArray, setMessageArray] = useState<Array<String>>([]);
+
   return (
     <div className="flex justify-center items-center h-screen bg-[#161616] text-white">
-      <button
-        onClick={() => {
-          console.log("Hello");
-
-          socket.emit("message", "Hello");
-        }}
-      >
-        Hello
-      </button>
       <div className="w-3/5">
         <div className="flex flex-col mb-6">
           <span className="font-semibold text-lg">copo.</span>
@@ -32,22 +26,30 @@ export default function Home() {
               allow="autoplay; encrypted-media"
             />
           </div>
-          <div className="w-[36%] px-5 py-3 glass text-sm">
-            <div className="opacity-80 my-2">
-              <span className="font-semibold opacity-50">rockfellar</span>{" "}
-              <span>you should study 1st law of thermodynamics</span>
+          <div className="w-[36%] px-5 py-3 glass text-sm flex flex-col justify-between">
+            <div>
+              {messageArray.map((message) => {
+                return (
+                  <div className="opacity-80 my-2">
+                    <span className="font-semibold opacity-50">rockfellar</span>{" "}
+                    <span>{message}</span>
+                  </div>
+                );
+              })}
             </div>
-            <div className="opacity-80 my-2">
-              <span className="font-semibold opacity-50">rockfellar</span>{" "}
-              <span>you should study 1st law of thermodynamics</span>
-            </div>
-            <div className="opacity-80 my-2">
-              <span className="font-semibold opacity-50">rockfellar</span>{" "}
-              <span>you should study 1st law of thermodynamics</span>
-            </div>
-            <div className="opacity-80 my-2">
-              <span className="font-semibold opacity-50">rockfellar</span>{" "}
-              <span>you should study 1st law of thermodynamics</span>
+            <div className="opacity-80 my-2 flex justify-center">
+              <input
+                type="text"
+                placeholder="chat!"
+                className="bg-[#161616] border-none outline-none px-4 py-3 w-full rounded-md"
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                }}
+                onKeyUp={(e) => {
+                  if (e.key.toLowerCase() == "enter") {
+                  }
+                }}
+              />
             </div>
           </div>
         </div>
