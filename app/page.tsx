@@ -1,10 +1,26 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import { socket } from "./../socket";
 
 export default function Home() {
-  const [message, setMessage] = useState<String>();
+  const [message, setMessage] = useState("");
   const [messageArray, setMessageArray] = useState<Array<String>>([]);
+
+  useEffect(() => {
+    // Define the listener function outside of the event handler
+    const handleChatMessage = (message: string) => {
+      setMessageArray((prev) => [...prev, message]);
+    };
+
+    // Attach the listener to the "chat-message" event
+    socket.on("chat-message", handleChatMessage);
+
+    // Cleanup: remove the listener when the component unmounts
+    return () => {
+      socket.off("chat-message", handleChatMessage);
+    };
+  }, []);
 
   return (
     <div className="flex justify-center items-center h-screen bg-[#161616] text-white">
@@ -18,7 +34,7 @@ export default function Home() {
           &nbsp;
           <span className="opacity-50">until another break...</span>
         </div>
-        <div className="w-full flex justify-between my-2">
+        <div className="w-full max-h-[44.3vh] flex justify-between my-2">
           <div className="w-[63%] p-3 glass">
             <iframe
               className="w-full aspect-video self-stretch"
@@ -27,7 +43,7 @@ export default function Home() {
             />
           </div>
           <div className="w-[36%] px-5 py-3 glass text-sm flex flex-col justify-between">
-            <div>
+            <div className="overflow-y-scroll flex flex-col justify-end no-scrollbar">
               {messageArray.map((message) => {
                 return (
                   <div className="opacity-80 my-2">
@@ -42,11 +58,16 @@ export default function Home() {
                 type="text"
                 placeholder="chat!"
                 className="bg-[#161616] border-none outline-none px-4 py-3 w-full rounded-md"
+                value={message}
                 onChange={(e) => {
                   setMessage(e.target.value);
                 }}
                 onKeyUp={(e) => {
                   if (e.key.toLowerCase() == "enter") {
+                    if (message.length > 0) {
+                      socket.emit("chat-message", message);
+                    }
+                    setMessage("");
                   }
                 }}
               />

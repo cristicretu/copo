@@ -34,3 +34,15 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.18);
   /* box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); */
 }
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
