@@ -32,11 +32,10 @@ export default function Home() {
           <span className="opacity-50 text-sm">Find flow</span>
         </div>
         <div className="text-sm">
-          <b className="opacity-100">17:23</b>
-          &nbsp;
+          <b className="opacity-100 mx-2">17:23</b>
           <span className="opacity-50">until another break...</span>
         </div>
-        <div className="w-full max-h-[44.3vh] flex justify-between my-2">
+        <div className="w-full h-[45vh] flex justify-between my-2">
           <div className="w-[63%] p-3 glass">
             <iframe
               className="w-full aspect-video self-stretch"
@@ -87,7 +86,7 @@ export default function Home() {
           <p className="mb-6 mt-4">
             copo is a simple, yet unique pomodoro timer: it's shared across the
             world. this means that everyone will have breaks at the same time
-            and will follow a set {"(25 + 5)"} schedule.
+            and will follow a set 25 + 5 schedule.
           </p>
           <span>Built with care by @skyash</span>
         </div>
