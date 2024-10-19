@@ -16,7 +16,7 @@ const io = socketio(server, {
 });
 
 app.use(cors());
-app.use("/.netlify/functions/server", router);
+app.use(router);
 
 io.on("connect", (socket) => {
   socket.on("chat-message", (object) => {
