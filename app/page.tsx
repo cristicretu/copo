@@ -18,7 +18,6 @@ export default function Home() {
 
     // Attach the listener to the "chat-message" event
     socket.on("chat-message", handleChatMessage);
-    message;
     // Cleanup: remove the listener when the component unmounts
     return () => {
       socket.off("chat-message", handleChatMessage);
@@ -88,7 +87,7 @@ export default function Home() {
           <p className="mb-6 mt-4">
             copo is a simple, yet unique pomodoro timer: it's shared across the
             world. this means that everyone will have breaks at the same time
-            and will follow a set (25 + 5) schedule.
+            and will follow a set {"(25 + 5)"} schedule.
           </p>
           <span>Built with care by @skyash</span>
         </div>
