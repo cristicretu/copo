@@ -1,21 +1,24 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
-import { socket } from "./../socket";
+import { Key, useEffect, useState } from "react";
+import { socket } from "@/socket";
+import randomName from "@scaleway/random-name";
+import { messageObject } from "@/utils/interfaces";
 
+const clientName = randomName("", "-");
 export default function Home() {
-  const [message, setMessage] = useState("");
-  const [messageArray, setMessageArray] = useState<Array<String>>([]);
+  const [message, setMessage] = useState<string>("");
+  const [messageStream, setMessageStream] = useState<Array<messageObject>>([]);
 
   useEffect(() => {
     // Define the listener function outside of the event handler
-    const handleChatMessage = (message: string) => {
-      setMessageArray((prev) => [...prev, message]);
+    const handleChatMessage = (object: messageObject) => {
+      setMessageStream((prev: Array<messageObject>) => [...prev, object]);
     };
 
     // Attach the listener to the "chat-message" event
     socket.on("chat-message", handleChatMessage);
-
+    message;
     // Cleanup: remove the listener when the component unmounts
     return () => {
       socket.off("chat-message", handleChatMessage);
@@ -44,11 +47,13 @@ export default function Home() {
           </div>
           <div className="w-[36%] px-5 py-3 glass text-sm flex flex-col justify-between">
             <div className="overflow-y-scroll flex flex-col justify-end no-scrollbar">
-              {messageArray.map((message) => {
+              {messageStream.map((object: messageObject, key: Key) => {
                 return (
-                  <div className="opacity-80 my-2">
-                    <span className="font-semibold opacity-50">rockfellar</span>{" "}
-                    <span>{message}</span>
+                  <div className="opacity-80 my-2" key={key}>
+                    <span className="font-semibold opacity-50">
+                      {object.clientName}
+                    </span>{" "}
+                    <span>{object.message}</span>
                   </div>
                 );
               })}
@@ -65,7 +70,11 @@ export default function Home() {
                 onKeyUp={(e) => {
                   if (e.key.toLowerCase() == "enter") {
                     if (message.length > 0) {
-                      socket.emit("chat-message", message);
+                      socket.emit("chat-message", {
+                        id: socket.id,
+                        message,
+                        clientName,
+                      });
                     }
                     setMessage("");
                   }

@@ -15,8 +15,8 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {
-    socket.on("chat-message", (message) => {
-      io.emit("chat-message", message);
+    socket.on("chat-message", (object) => {
+      io.emit("chat-message", object);
     });
   });
 
