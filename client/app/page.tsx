@@ -4,26 +4,13 @@ import { Key, useEffect, useState } from "react";
 import { socket } from "@/socket";
 import randomName from "@scaleway/random-name";
 import { messageObject } from "@/utils/interfaces";
+import Link from "next/link";
 
-const clientName = randomName("", "-");
 export default function Home() {
-  const [message, setMessage] = useState<string>("");
-  const [messageStream, setMessageStream] = useState<Array<messageObject>>([]);
+  return <Page />;
+}
 
-  useEffect(() => {
-    // Define the listener function outside of the event handler
-    const handleChatMessage = (object: messageObject) => {
-      setMessageStream((prev: Array<messageObject>) => [...prev, object]);
-    };
-
-    // Attach the listener to the "chat-message" event
-    socket.on("chat-message", handleChatMessage);
-    // Cleanup: remove the listener when the component unmounts
-    return () => {
-      socket.off("chat-message", handleChatMessage);
-    };
-  }, []);
-
+export function Page() {
   return (
     <div className="flex justify-center items-center h-screen bg-[#161616] text-white">
       <div className="w-3/5">
@@ -43,53 +30,85 @@ export default function Home() {
               allow="autoplay; encrypted-media"
             />
           </div>
-          <div className="w-[36%] px-5 py-3 glass text-sm flex flex-col justify-between">
-            <div className="overflow-y-scroll flex flex-col justify-end no-scrollbar">
-              {messageStream.map((object: messageObject, key: Key) => {
-                return (
-                  <div className="opacity-80 my-2" key={key}>
-                    <span className="font-semibold opacity-50">
-                      {object.clientName}
-                    </span>{" "}
-                    <span>{object.message}</span>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="opacity-80 my-2 flex justify-center">
-              <input
-                type="text"
-                placeholder="chat!"
-                className="bg-[#161616] border-none outline-none px-4 py-3 w-full rounded-md"
-                value={message}
-                onChange={(e) => {
-                  setMessage(e.target.value);
-                }}
-                onKeyUp={(e) => {
-                  if (e.key.toLowerCase() == "enter") {
-                    if (message.length > 0) {
-                      socket.emit("chat-message", {
-                        id: socket.id,
-                        message,
-                        clientName,
-                      });
-                    }
-                    setMessage("");
-                  }
-                }}
-              />
-            </div>
-          </div>
+          <MessageCard />
         </div>
-        <div className="opacity-50 w-2/4 text-sm my-4">
-          <span>About</span>
-          <p className="mb-6 mt-4">
+        <div className="w-2/4 text-sm my-4">
+          <span className="opacity-50">About</span>
+          <p className="mb-6 mt-4 opacity-50">
             copo is a simple, yet unique pomodoro timer: it&apos;s shared across
             the world. this means that everyone will have breaks at the same
             time and will follow a set (25 + 5) schedule.
           </p>
-          <span>Built with care by @skyash</span>
+          <span className="flex">
+            <p className="opacity-50">Built with care by</p>
+            <Link
+              href={`https://x.com/_skyash`}
+              className="opacity-50 hover:opacity-100 px-1"
+            >
+              @skyash
+            </Link>
+          </span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+const clientName = randomName("", "-");
+export function MessageCard() {
+  const [message, setMessage] = useState<string>("");
+  const [messageStream, setMessageStream] = useState<Array<messageObject>>([]);
+
+  useEffect(() => {
+    // Define the listener function outside of the event handler
+    const handleChatMessage = (object: messageObject) => {
+      setMessageStream((prev: Array<messageObject>) => [...prev, object]);
+    };
+
+    // Attach the listener to the "chat-message" event
+    socket.on("chat-message", handleChatMessage);
+    // Cleanup: remove the listener when the component unmounts
+    return () => {
+      socket.off("chat-message", handleChatMessage);
+    };
+  }, []);
+
+  return (
+    <div className="w-[36%] px-5 py-3 glass text-sm flex flex-col justify-between">
+      <div className="overflow-y-scroll flex flex-col justify-end no-scrollbar">
+        {messageStream.map((object: messageObject, key: Key) => {
+          return (
+            <div className="opacity-80 my-2" key={key}>
+              <span className="font-semibold opacity-50">
+                {object.clientName}
+              </span>{" "}
+              <span>{object.message}</span>
+            </div>
+          );
+        })}
+      </div>
+      <div className="opacity-80 my-2 flex justify-center">
+        <input
+          type="text"
+          placeholder="chat!"
+          className="bg-[#161616] border-none outline-none px-4 py-3 w-full rounded-md"
+          value={message}
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
+          onKeyUp={(e) => {
+            if (e.key.toLowerCase() == "enter") {
+              if (message.length > 0) {
+                socket.emit("chat-message", {
+                  id: socket.id,
+                  message,
+                  clientName,
+                });
+              }
+              setMessage("");
+            }
+          }}
+        />
       </div>
     </div>
   );
