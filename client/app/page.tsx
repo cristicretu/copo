@@ -58,31 +58,25 @@ function PomodoroMain() {
   const [mode, setMode] = useState<Mode>(Mode.work); // 'work' or 'break'
 
   useEffect(() => {
-    let interval: any = null;
-    interval = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds(seconds - 1);
-      } else if (minutes > 0) {
-        setMinutes(minutes - 1);
-        setSeconds(59);
-      } else {
-        clearInterval(interval);
-        if (mode === "work") {
-          setMode(Mode.break);
-          setMinutes(5);
-        } else {
-          setMode(Mode.work);
-          setMinutes(25);
-        }
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [minutes, seconds, mode]);
+    // Listen for timer updates from the server
+    socket.on("timer-update", (timer) => {
+      setMinutes(timer.minutes);
+      setSeconds(timer.seconds);
+    });
+
+    return () => {
+      socket.off("timer-update");
+    };
+  }, []);
+
+  // When displaying the time
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  const formattedSeconds = String(seconds).padStart(2, "0");
 
   return (
     <>
       <div className="text-sm">
-        <b className="opacity-100 mx-2">{`${minutes}:${seconds}`}</b>
+        <b className="opacity-100 mx-2">{`${formattedMinutes}:${formattedSeconds}`}</b>
         <span className="opacity-50">until another break...</span>
       </div>
       <div className="w-full h-[50vh] flex justify-between my-2">
