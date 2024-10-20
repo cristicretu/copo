@@ -11,7 +11,7 @@ export default function Home() {
   return <CenterMain />;
 }
 
-export function CenterMain() {
+function CenterMain() {
   return (
     <div className="flex justify-center items-center h-screen bg-[#161616] text-white">
       <div className="w-3/5">
