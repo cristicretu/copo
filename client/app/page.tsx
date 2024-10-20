@@ -12,7 +12,7 @@ import { getRandomLink } from "@/utils/constants";
 declare global {
   interface Window {
     umami: {
-      trackEvent: (event: string, params?: Record<string, any>) => void;
+      trackEvent: (event: string, params?: Record<string, unknown>) => void;
     };
   }
 }
