@@ -13,14 +13,14 @@ export default function Home() {
 
 function CenterMain() {
   return (
-    <div className="flex justify-center items-center h-screen bg-[#161616] text-white">
+    <div className="flex justify-center py-4 md:overflow-y-hidden h-full bg-[#161616] text-white">
       <div className="w-3/5">
         <div className="flex flex-col mb-6">
           <span className="font-semibold text-lg">copo.</span>
           <span className="opacity-50 text-sm">Find flow</span>
         </div>
         <PomodoroMain />
-        <div className="w-2/4 text-sm my-4">
+        <div className="md:w-2/4 text-sm my-4">
           <span className="opacity-50">About</span>
           <p className="mb-6 mt-4 opacity-50">
             copo is a simple, yet unique pomodoro timer: it&apos;s shared across
@@ -55,7 +55,7 @@ const randomLink = getRandomLink();
 function PomodoroMain() {
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
-  const [mode, setMode] = useState<Mode>(Mode.work); // 'work' or 'break'
+  const [mode, setMode] = useState<Mode>(Mode.break); // 'work' or 'break'
 
   useEffect(() => {
     // Listen for timer updates from the server
@@ -85,12 +85,14 @@ function PomodoroMain() {
     <>
       <div className="text-sm">
         <b className="opacity-100 mx-2">{`${formattedMinutes}:${formattedSeconds}`}</b>
-        <span className="opacity-50">until another break...</span>
+        <span className="opacity-50">{`until another ${
+          mode == Mode.work ? "break" : "pomodoro"
+        }...`}</span>
       </div>
-      <div className="w-full h-[50vh] flex justify-between my-2">
-        <div className="w-[63%] p-3 glass">
+      <div className="w-full flex flex-col md:flex-row justify-between my-2 h-auto">
+        <div className="w-[100%] md:w-[63%] p-3 glass flex-shrink-0">
           <iframe
-            className="w-full aspect-video self-stretch"
+            className="w-full h-full aspect-video self-stretch"
             src={`https://www.youtube.com/embed/${randomLink}?autoplay=1&controls=0&showinfo=0&modestbranding=1&rel=0&autohide=1`}
             allow="autoplay; encrypted-media"
           />
@@ -104,7 +106,23 @@ function PomodoroMain() {
 const clientName = randomName("", "-");
 function MessageCard({ mode }: { mode: Mode }) {
   const [message, setMessage] = useState<string>("");
-  const [messageStream, setMessageStream] = useState<Array<MessageObject>>([]);
+  const [messageStream, setMessageStream] = useState<Array<MessageObject>>([
+    {
+      id: "12",
+      message: "Welcome to the chat!",
+      clientName,
+    },
+    {
+      id: "13",
+      message: "Feel free to chat with others during the break.",
+      clientName,
+    },
+    {
+      id: "14",
+      message: "Let's keep it friendly and respectful.",
+      clientName,
+    },
+  ]);
 
   useEffect(() => {
     // Define the listener function outside of the event handler
@@ -121,7 +139,7 @@ function MessageCard({ mode }: { mode: Mode }) {
   }, []);
 
   return (
-    <div className="w-[36%] px-5 py-3 glass text-sm flex flex-col justify-between">
+    <div className="w-[100%] md:w-[36%] px-5 py-3 glass text-sm flex flex-col justify-between my-2 md:my-0 flex-shrink-0">
       <div className="overflow-y-scroll flex flex-col justify-end no-scrollbar">
         {messageStream.map((object: MessageObject, key: Key) => {
           return (

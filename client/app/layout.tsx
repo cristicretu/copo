@@ -17,6 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="e29352e1-ed5f-4e6d-b1b9-4f57467c2afa"
+        ></script>
+      </head>
       <body className={`${nunito.className} antialiased`}>{children}</body>
     </html>
   );
