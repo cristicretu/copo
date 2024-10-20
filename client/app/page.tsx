@@ -8,10 +8,10 @@ import Link from "next/link";
 import { getRandomLink } from "@/utils/constants";
 
 export default function Home() {
-  return <Page />;
+  return <CenterMain />;
 }
 
-export function Page() {
+export function CenterMain() {
   return (
     <div className="flex justify-center items-center h-screen bg-[#161616] text-white">
       <div className="w-3/5">
