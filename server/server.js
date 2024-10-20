@@ -11,17 +11,19 @@ const io = socketio(server, {
   cors: {
     origin: "https://copo-skyash.vercel.app", // Allow your client origin
     methods: ["GET", "POST"],
-    credentials: true, // Include if you are using cookies or authentication
+    credentials: true,
   },
 });
 
 app.use(cors());
 app.use(router);
 
+// Timer state
 let timer = {
   minutes: 25,
   seconds: 0,
   running: false,
+  isBreak: false, // Add a flag to track whether it's break time
 };
 let timerInterval = null;
 
@@ -29,16 +31,30 @@ let timerInterval = null;
 const decrementTimer = () => {
   if (timer.seconds === 0) {
     if (timer.minutes === 0) {
+      // Switch modes when timer reaches zero
       clearInterval(timerInterval);
       timer.running = false;
-      io.emit("timer-update", timer);
-      return;
+
+      // Switch to break or work mode
+      if (timer.isBreak) {
+        timer.minutes = 25; // Reset to work time
+        timer.isBreak = false; // Switch to work mode
+      } else {
+        timer.minutes = 5; // Set break time
+        timer.isBreak = true; // Switch to break mode
+      }
+
+      // Start the timer again
+      startTimer();
+    } else {
+      timer.minutes--;
+      timer.seconds = 59;
     }
-    timer.minutes--;
-    timer.seconds = 59;
   } else {
     timer.seconds--;
   }
+
+  // Emit the updated timer state to clients
   io.emit("timer-update", timer);
 };
 

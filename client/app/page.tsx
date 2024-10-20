@@ -62,14 +62,7 @@ function PomodoroMain() {
     socket.on("timer-update", (timer) => {
       setMinutes(timer.minutes);
       setSeconds(timer.seconds);
-
-      if (timer.minutes === 0 && timer.seconds === 0) {
-        if (mode === Mode.work) {
-          setMode(Mode.break);
-        } else {
-          setMode(Mode.work);
-        }
-      }
+      setMode(timer.isBreak ? Mode.break : Mode.work);
     });
 
     return () => {
