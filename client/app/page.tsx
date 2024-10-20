@@ -7,6 +7,18 @@ import { MessageObject, Mode } from "@/utils/types";
 import Link from "next/link";
 import { getRandomLink } from "@/utils/constants";
 
+// src/global.d.ts
+
+declare global {
+  interface Window {
+    umami: {
+      trackEvent: (event: string, params?: Record<string, any>) => void;
+    };
+  }
+}
+
+export {};
+
 export default function Home() {
   return <CenterMain />;
 }
@@ -20,18 +32,20 @@ function CenterMain() {
           <span className="opacity-50 text-sm">Find flow</span>
         </div>
         <PomodoroMain />
-        <div className="md:w-2/4 text-sm my-4">
+        <div className="md:w-3/5 text-sm my-4">
           <span className="opacity-50">About</span>
-          <p className="mb-6 mt-4 opacity-50">
-            copo is a simple, yet unique pomodoro timer: it&apos;s shared across
-            the world. this means that everyone will have breaks at the same
-            time and will follow a set (25 + 5) schedule.
+          <p className="mb-4 mt-2 opacity-50">
+            copo is a simple, yet unique pomodoro timer: everyone using this
+            pomodoro site/app is on the same 25/5 minute intervals. During the
+            5-minute breaks, a global chat lets everyone interact with each
+            other.
           </p>
           <span className="flex">
             <p className="opacity-50">Designed with care by</p>
             <Link
               href={`https://x.com/@cristicrtu`}
               className="opacity-50 hover:opacity-100 px-1"
+              data-umami-event="clicked designer"
             >
               @cristicrtu
             </Link>
@@ -41,6 +55,7 @@ function CenterMain() {
             <Link
               href={`https://x.com/_skyash`}
               className="opacity-50 hover:opacity-100 px-1"
+              data-umami-event="clicked developer"
             >
               @_skyash
             </Link>
@@ -88,6 +103,7 @@ function PomodoroMain() {
             className="w-full h-full aspect-video self-stretch"
             src={`https://www.youtube.com/embed/${randomLink}?autoplay=1&controls=0&showinfo=0&modestbranding=1&rel=0&autohide=1`}
             allow="autoplay; encrypted-media"
+            data-umami-event="watched video"
           />
         </div>
         <MessageCard mode={mode} />
@@ -101,19 +117,9 @@ function MessageCard({ mode }: { mode: Mode }) {
   const [message, setMessage] = useState<string>("");
   const [messageStream, setMessageStream] = useState<Array<MessageObject>>([
     {
-      id: "12",
-      message: "Welcome to the chat!",
-      clientName,
-    },
-    {
-      id: "13",
-      message: "Feel free to chat with others during the break.",
-      clientName,
-    },
-    {
-      id: "14",
-      message: "Let's keep it friendly and respectful.",
-      clientName,
+      id: "0",
+      message: "let's co-work together!",
+      clientName: "skyash",
     },
   ]);
 
@@ -131,12 +137,26 @@ function MessageCard({ mode }: { mode: Mode }) {
     };
   }, []);
 
+  const sendMessage = () => {
+    if (message.length > 0) {
+      socket.emit("chat-message", {
+        id: socket.id,
+        message,
+        clientName,
+      });
+    }
+    setMessage("");
+    if (window.umami) {
+      window.umami.trackEvent("sent message");
+    }
+  };
+
   return (
-    <div className="w-[100%] md:w-[36%] px-5 py-3 glass text-sm flex flex-col justify-between my-2 md:my-0 flex-shrink-0">
+    <div className="w-[100%] md:w-[36%] px-4 py-3 glass text-sm flex flex-col justify-between my-2 md:my-0 flex-shrink-0 h-[35vh] md:h-auto">
       <div className="overflow-y-scroll flex flex-col justify-end no-scrollbar">
         {messageStream.map((object: MessageObject, key: Key) => {
           return (
-            <div className="opacity-80 my-2" key={key}>
+            <div className="opacity-80 my-2 text-sm" key={key}>
               <span className="font-semibold opacity-50">
                 {object.clientName}
               </span>{" "}
@@ -146,28 +166,52 @@ function MessageCard({ mode }: { mode: Mode }) {
         })}
       </div>
       {mode === "break" ? (
-        <div className="opacity-80 my-2 flex justify-center">
+        <div className="opacity-80 my-2 flex justify-center items-center">
           <input
             type="text"
             placeholder="chat!"
-            className="bg-[#161616] border-none outline-none px-4 py-3 w-full rounded-md"
+            className="bg-[#161616] border-none outline-none px-4 py-3 w-full rounded-md rounded-r-none"
             value={message}
+            data-umami-event="typed message"
             onChange={(e) => {
               setMessage(e.target.value);
             }}
             onKeyUp={(e) => {
               if (e.key.toLowerCase() == "enter") {
-                if (message.length > 0) {
-                  socket.emit("chat-message", {
-                    id: socket.id,
-                    message,
-                    clientName,
-                  });
-                }
-                setMessage("");
+                sendMessage();
               }
             }}
           />
+          <button
+            className="bg-[#161616] py-3 px-2 rounded-r-md"
+            onClick={sendMessage}
+          >
+            <svg
+              width="20px"
+              height="20px"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              stroke="#ffffff"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                {" "}
+                <path
+                  d="M11.5003 12H5.41872M5.24634 12.7972L4.24158 15.7986C3.69128 17.4424 3.41613 18.2643 3.61359 18.7704C3.78506 19.21 4.15335 19.5432 4.6078 19.6701C5.13111 19.8161 5.92151 19.4604 7.50231 18.7491L17.6367 14.1886C19.1797 13.4942 19.9512 13.1471 20.1896 12.6648C20.3968 12.2458 20.3968 11.7541 20.1896 11.3351C19.9512 10.8529 19.1797 10.5057 17.6367 9.81135L7.48483 5.24303C5.90879 4.53382 5.12078 4.17921 4.59799 4.32468C4.14397 4.45101 3.77572 4.78336 3.60365 5.22209C3.40551 5.72728 3.67772 6.54741 4.22215 8.18767L5.24829 11.2793C5.34179 11.561 5.38855 11.7019 5.407 11.8459C5.42338 11.9738 5.42321 12.1032 5.40651 12.231C5.38768 12.375 5.34057 12.5157 5.24634 12.7972Z"
+                  stroke="#ffffff"
+                  stroke-width="1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>{" "}
+              </g>
+            </svg>
+          </button>
         </div>
       ) : (
         <div className="my-2 flex flex-col justify-start">
