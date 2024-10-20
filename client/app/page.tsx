@@ -102,7 +102,7 @@ function PomodoroMain() {
 }
 
 const clientName = randomName("", "-");
-export function MessageCard({ mode }: { mode: Mode }) {
+function MessageCard({ mode }: { mode: Mode }) {
   const [message, setMessage] = useState<string>("");
   const [messageStream, setMessageStream] = useState<Array<MessageObject>>([]);
 
