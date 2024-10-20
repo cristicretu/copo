@@ -13,7 +13,7 @@ export default function Home() {
 
 function CenterMain() {
   return (
-    <div className="flex justify-center py-4 md:overflow-y-hidden h-full bg-[#161616] text-white">
+    <div className="flex justify-center py-4 h-full bg-[#161616] text-white">
       <div className="w-3/5">
         <div className="flex flex-col mb-6">
           <span className="font-semibold text-lg">copo.</span>
