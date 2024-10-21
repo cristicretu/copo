@@ -67,10 +67,11 @@ function CenterMain() {
 }
 
 const randomLink = getRandomLink();
+
 function PomodoroMain() {
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
-  const [mode, setMode] = useState<Mode>(Mode.work); // 'work' or 'break'
+  const [mode, setMode] = useState<Mode | undefined>(); // 'work' or 'break'
 
   useEffect(() => {
     // Listen for timer updates from the server
@@ -113,7 +114,7 @@ function PomodoroMain() {
 }
 
 const clientName = randomName("", "-");
-function MessageCard({ mode }: { mode: Mode }) {
+function MessageCard({ mode }: { mode: Mode | undefined }) {
   const [message, setMessage] = useState<string>("");
   const [messageStream, setMessageStream] = useState<Array<MessageObject>>([
     {
