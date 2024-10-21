@@ -70,7 +70,7 @@ const randomLink = getRandomLink();
 function PomodoroMain() {
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
-  const [mode, setMode] = useState<Mode>(Mode.break); // 'work' or 'break'
+  const [mode, setMode] = useState<Mode>(Mode.work); // 'work' or 'break'
 
   useEffect(() => {
     // Listen for timer updates from the server
