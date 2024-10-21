@@ -45,7 +45,10 @@ function CenterMain() {
             <Link
               href={`https://x.com/@cristicrtu`}
               className="opacity-50 hover:opacity-100 px-1"
-              data-umami-event="clicked designer"
+              target="_blank"
+              onClick={() => {
+                window.umami.trackEvent("clicked designer");
+              }}
             >
               @cristicrtu
             </Link>
@@ -54,8 +57,11 @@ function CenterMain() {
             <p className="opacity-50">Built by</p>
             <Link
               href={`https://x.com/_skyash`}
+              target="_blank"
               className="opacity-50 hover:opacity-100 px-1"
-              data-umami-event="clicked developer"
+              onClick={() => {
+                window.umami.trackEvent("clicked deveoper");
+              }}
             >
               @_skyash
             </Link>
@@ -77,6 +83,7 @@ function PomodoroMain() {
     // Listen for timer updates from the server
     socket.on("timer-update", (timer) => {
       setMinutes(timer.minutes);
+
       setSeconds(timer.seconds);
       setMode(timer.isBreak ? Mode.break : Mode.work);
     });
@@ -104,7 +111,11 @@ function PomodoroMain() {
             className="w-full h-full aspect-video self-stretch"
             src={`https://www.youtube.com/embed/${randomLink}?autoplay=1&controls=0&showinfo=0&modestbranding=1&rel=0&autohide=1`}
             allow="autoplay; encrypted-media"
-            data-umami-event="watched video"
+            onClick={() => {
+              if (window.umami) {
+                window.umami.trackEvent("clicked video");
+              }
+            }}
           />
         </div>
         <MessageCard mode={mode} />
@@ -173,7 +184,6 @@ function MessageCard({ mode }: { mode: Mode | undefined }) {
             placeholder="chat!"
             className="bg-[#161616] border-none outline-none px-4 py-3 w-full rounded-md rounded-r-none"
             value={message}
-            data-umami-event="typed message"
             onChange={(e) => {
               setMessage(e.target.value);
             }}
