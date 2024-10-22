@@ -80,7 +80,7 @@ function PomodoroMain() {
   const [mode, setMode] = useState<Mode | undefined>(); // 'work' or 'break'
 
   useEffect(() => {
-    let interval: any = null;
+    let interval: NodeJS.Timeout | undefined = undefined;
     interval = setInterval(() => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
