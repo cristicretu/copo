@@ -124,7 +124,11 @@ function PomodoroMain() {
   return (
     <>
       <div className="text-sm">
-        <b className="opacity-100 mx-2">{`${formattedMinutes}:${formattedSeconds}`}</b>
+        <b className="opacity-100 mx-2">
+          {minutes !== undefined && seconds !== undefined
+            ? `${formattedMinutes}:${formattedSeconds}`
+            : null}
+        </b>
         <span className="opacity-50">{`until another ${
           mode == Mode.work ? "break" : "pomodoro"
         }...`}</span>
