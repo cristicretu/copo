@@ -75,26 +75,28 @@ function CenterMain() {
 const randomLink = getRandomLink();
 
 function PomodoroMain() {
-  const [minutes, setMinutes] = useState(25);
-  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState<number | undefined>();
+  const [seconds, setSeconds] = useState<number | undefined>();
   const [mode, setMode] = useState<Mode | undefined>(); // 'work' or 'break'
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined;
     interval = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds(seconds - 1);
-      } else if (minutes > 0) {
-        setMinutes(minutes - 1);
-        setSeconds(59);
-      } else {
-        clearInterval(interval);
-        if (mode === "work") {
-          setMode(Mode.break);
-          setMinutes(5);
+      if (minutes !== undefined && seconds !== undefined) {
+        if (seconds > 0) {
+          setSeconds(seconds - 1);
+        } else if (minutes > 0) {
+          setMinutes(minutes - 1);
+          setSeconds(59);
         } else {
-          setMode(Mode.work);
-          setMinutes(25);
+          clearInterval(interval);
+          if (mode === "work") {
+            setMode(Mode.break);
+            setMinutes(5);
+          } else {
+            setMode(Mode.work);
+            setMinutes(25);
+          }
         }
       }
     }, 1000);
