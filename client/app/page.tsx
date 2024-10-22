@@ -80,6 +80,28 @@ function PomodoroMain() {
   const [mode, setMode] = useState<Mode | undefined>(); // 'work' or 'break'
 
   useEffect(() => {
+    let interval: any = null;
+    interval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+      } else if (minutes > 0) {
+        setMinutes(minutes - 1);
+        setSeconds(59);
+      } else {
+        clearInterval(interval);
+        if (mode === "work") {
+          setMode(Mode.break);
+          setMinutes(5);
+        } else {
+          setMode(Mode.work);
+          setMinutes(25);
+        }
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [minutes, seconds, mode]);
+
+  useEffect(() => {
     // Listen for timer updates from the server
     socket.on("timer-update", (timer) => {
       setMinutes(timer.minutes);

@@ -53,9 +53,6 @@ const decrementTimer = () => {
   } else {
     timer.seconds--;
   }
-
-  // Emit the updated timer state to clients
-  io.emit("timer-update", timer);
 };
 
 // Start the timer
