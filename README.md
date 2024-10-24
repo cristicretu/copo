@@ -43,7 +43,7 @@
 
 ##  Overview
 
-**Copo** is a globally synced Pomodoro timer designed for seamless focus and collaboration. All users are synchronized to the same Pomodoro intervals (25 minutes of work followed by a 5-minute break). The application offers a minimal and distraction-free environment where everyone is on the same cycle. During the breaks, users can chat with each other in a global chat room, making it a community-driven productivity tool.
+**copo** is a globally synced Pomodoro timer designed for seamless focus and collaboration. All users are synchronized to the same Pomodoro intervals (25 minutes of work followed by a 5-minute break). The application offers a minimal and distraction-free environment where everyone is on the same cycle. During the breaks, users can chat with each other in a global chat room, making it a community-driven productivity tool.
 
 The simplicity of the timer ensures that users stay focused without needing to manage their time themselves. Built using modern technologies, Copo provides real-time updates and ensures that users are always in sync no matter when they join the session.
 
