@@ -17,3 +17,7 @@ console.log(date.getSeconds());
 // 2. the client will calculate the time elapsed and start timer client side.
 
 // 12 17 -> 5 hours -> 10 pomodoro
+
+// but the problem with this approach is that the user can change the time and start the timer again.
+
+// we can send the timer state only through socket when the user connected.

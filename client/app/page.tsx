@@ -32,42 +32,71 @@ function CenterMain() {
           <span className="opacity-50 text-sm">Find flow</span>
         </div>
         <PomodoroMain />
-        <div className="md:w-3/5 text-sm my-4">
-          <span className="opacity-50">About</span>
-          <p className="mb-4 mt-2 opacity-50">
-            copo is a simple, yet unique pomodoro timer: everyone using this
-            pomodoro site/app is on the same 25/5 minute intervals. During the
-            5-minute breaks, a global chat lets everyone interact with each
-            other.
-          </p>
-          <span className="flex">
-            <p className="opacity-50">Designed with care by</p>
-            <Link
-              href={`https://x.com/@cristicrtu`}
-              className="opacity-50 hover:opacity-100 px-1"
-              target="_blank"
-              onClick={() => {
-                window.umami.trackEvent("clicked designer");
-              }}
-            >
-              @cristicrtu
-            </Link>
-          </span>
-          <span className="flex">
-            <p className="opacity-50">Built by</p>
-            <Link
-              href={`https://x.com/_skyash`}
-              target="_blank"
-              className="opacity-50 hover:opacity-100 px-1"
-              onClick={() => {
-                window.umami.trackEvent("clicked deveoper");
-              }}
-            >
-              @_skyash
-            </Link>
-          </span>
-        </div>
+        <AboutSection />
       </div>
+    </div>
+  );
+}
+
+function AboutSection() {
+  return (
+    <div className="md:w-3/5 text-sm my-4">
+      <span className="opacity-50">About</span>
+      <p className="mb-4 mt-2 opacity-50">
+        copo is a simple, yet unique pomodoro timer: everyone using this
+        pomodoro site/app is on the same 25/5 minute intervals. During the
+        5-minute breaks, a global chat lets everyone interact with each other.
+      </p>
+      <span className="flex">
+        <p className="opacity-50">Designed with care by</p>
+        <Link
+          href={`https://x.com/@cristicrtu`}
+          className="opacity-50 hover:opacity-100 px-1"
+          target="_blank"
+          onClick={() => {
+            try {
+              window.umami.trackEvent("clicked designer");
+            } catch (e) {
+              console.log(e);
+            }
+          }}
+        >
+          @cristicrtu
+        </Link>
+      </span>
+      <span className="flex">
+        <p className="opacity-50">Built by</p>
+        <Link
+          href={`https://x.com/_skyash`}
+          target="_blank"
+          className="opacity-50 hover:opacity-100 px-1"
+          onClick={() => {
+            try {
+              window.umami.trackEvent("clicked deveoper");
+            } catch (e) {
+              console.log(e);
+            }
+          }}
+        >
+          @_skyash
+        </Link>
+      </span>
+      <span className="flex">
+        <Link
+          href={`https://github.com/skyash-dev/copo`}
+          target="_blank"
+          className="opacity-50 hover:opacity-100 grayscale"
+          onClick={() => {
+            try {
+              window.umami.trackEvent("clicked github");
+            } catch (e) {
+              console.log(e);
+            }
+          }}
+        >
+          Github 🌟
+        </Link>
+      </span>
     </div>
   );
 }
@@ -108,7 +137,7 @@ function PomodoroMain() {
     socket.on("timer-update", (timer) => {
       setMinutes(timer.minutes);
 
-      setSeconds(timer.seconds);
+      setSeconds(timer.seconds - 1);
       setMode(timer.isBreak ? Mode.break : Mode.work);
     });
 
@@ -118,15 +147,16 @@ function PomodoroMain() {
   }, []);
 
   // When displaying the time
-  const formattedMinutes = String(minutes).padStart(2, "0");
-  const formattedSeconds = String(seconds).padStart(2, "0");
+  const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
+    seconds
+  ).padStart(2, "0")}`;
 
   return (
     <>
       <div className="text-sm">
         <b className="opacity-100 mx-2">
           {minutes !== undefined && seconds !== undefined
-            ? `${formattedMinutes}:${formattedSeconds}`
+            ? `${formattedTime}`
             : null}
         </b>
         <span className="opacity-50">{`until another ${
@@ -140,8 +170,10 @@ function PomodoroMain() {
             src={`https://www.youtube.com/embed/${randomLink}?autoplay=1&controls=0&showinfo=0&modestbranding=1&rel=0&autohide=1`}
             allow="autoplay; encrypted-media"
             onClick={() => {
-              if (window.umami) {
+              try {
                 window.umami.trackEvent("clicked video");
+              } catch (e) {
+                console.log(e);
               }
             }}
           />
@@ -186,8 +218,10 @@ function MessageCard({ mode }: { mode: Mode | undefined }) {
       });
     }
     setMessage("");
-    if (window.umami) {
+    try {
       window.umami.trackEvent("sent message");
+    } catch (e) {
+      console.log(e);
     }
   };
 
