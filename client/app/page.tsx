@@ -141,8 +141,14 @@ function PomodoroMain() {
       setMode(timer.isBreak ? Mode.break : Mode.work);
     });
 
+    // Sync the client timer when the user reconnects after inactivity
+    socket.on("reconnect", () => {
+      socket.emit("request-sync"); // Request current timer state after reconnecting
+    });
+
     return () => {
       socket.off("timer-update");
+      socket.off("reconnect");
     };
   }, []);
 
