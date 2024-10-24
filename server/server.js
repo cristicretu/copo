@@ -102,6 +102,11 @@ io.on("connect", (socket) => {
   // Send the current timer state to the new client
   socket.emit("timer-update", timer.getState());
 
+  // Instead of emitting every second, emit every 10 seconds
+  setInterval(() => {
+    io.emit("timer-update", timer.getState());
+  }, 30000); // 30 seconds
+
   // Listen for chat messages
   socket.on("chat-message", (object) => {
     if (timer.isBreak) {
@@ -111,7 +116,7 @@ io.on("connect", (socket) => {
 
   // Handle re-sync request from client after inactivity
   socket.on("request-sync", () => {
-    socket.emit("timer-update", timer.getState());
+    io.emit("timer-update", timer.getState());
   });
 
   // Start the timer if it's not already running
