@@ -1,14 +1,10 @@
 <p align="center">
-  <img src="copo.png" width="60%" alt="COPO-logo">
+  <img src="https://github.com/user-attachments/assets/1b2ef92b-036f-4c9b-80cf-8b13edbacaee" width="20%" alt="COPO-logo">
 </p>
 <p align="center">
-    <h1 align="center">COPO</h1>
+    <h1 align="center">copo</h1>
 </p>
 <p align="center">
-    <em><code>❯ REPLACE-ME</code></em>
-</p>
-<p align="center">
-	<img src="https://img.shields.io/github/license/skyash-dev/copo?style=flat&logo=opensourceinitiative&logoColor=white&color=161616" alt="license">
 	<img src="https://img.shields.io/github/last-commit/skyash-dev/copo?style=flat&logo=git&logoColor=white&color=161616" alt="last-commit">
 	<img src="https://img.shields.io/github/languages/top/skyash-dev/copo?style=flat&color=161616" alt="repo-top-language">
 	<img src="https://img.shields.io/github/languages/count/skyash-dev/copo?style=flat&color=161616" alt="repo-language-count">
@@ -39,27 +35,36 @@
 - [ Features](#-features)
 - [ Repository Structure](#-repository-structure)
 - [ Modules](#-modules)
-- [ Getting Started](#-getting-started)
-    - [ Prerequisites](#-prerequisites)
-    - [ Installation](#-installation)
-    - [ Usage](#-usage)
-    - [ Tests](#-tests)
 - [ Project Roadmap](#-project-roadmap)
 - [ Contributing](#-contributing)
-- [ License](#-license)
 - [ Acknowledgments](#-acknowledgments)
 
 ---
 
 ##  Overview
 
-<code>❯ REPLACE-ME</code>
+**Copo** is a globally synced Pomodoro timer designed for seamless focus and collaboration. All users are synchronized to the same Pomodoro intervals (25 minutes of work followed by a 5-minute break). The application offers a minimal and distraction-free environment where everyone is on the same cycle. During the breaks, users can chat with each other in a global chat room, making it a community-driven productivity tool.
+
+The simplicity of the timer ensures that users stay focused without needing to manage their time themselves. Built using modern technologies, Copo provides real-time updates and ensures that users are always in sync no matter when they join the session.
 
 ---
 
-##  Features
+## Features
 
-<code>❯ REPLACE-ME</code>
+- **Global Sync Pomodoro Timer:** All users operate on the same 25-minute work and 5-minute break intervals. The timer is globally synchronized, meaning no matter when you join, you’ll be on the same cycle as everyone else.
+  
+- **Break-Time Global Chat:** During the 5-minute breaks, users can chat with others from around the world, fostering a sense of community and collaboration.
+
+- **Minimalist Interface:** A clean and intuitive design that keeps the focus on productivity. The user interface has been designed to eliminate distractions and make the timer easy to follow.
+
+- **Real-time Timer Updates:** The server broadcasts the timer state to all connected clients in real-time, ensuring that the timer remains consistent across all sessions.
+
+- **User-Friendly Notifications:** Receive visual and auditory cues when the work session ends and the break begins.
+
+- **Cross-Platform Compatibility:** Accessible via any browser, making it easy to use on different devices without the need for additional installations.
+
+- **Metrics Tracking:** Integrated with Umami for tracking important user interactions (like video clicks or chat messages), providing insights into how users engage with the application.
+
 
 ---
 
@@ -148,49 +153,6 @@
 
 ---
 
-##  Getting Started
-
-###  Prerequisites
-
-**JSON**: `version x.y.z`
-
-###  Installation
-
-Build the project from source:
-
-1. Clone the copo repository:
-```sh
-❯ git clone https://github.com/skyash-dev/copo
-```
-
-2. Navigate to the project directory:
-```sh
-❯ cd copo
-```
-
-3. Install the required dependencies:
-```sh
-❯ ❯ INSERT-INSTALL-COMMANDS
-```
-
-###  Usage
-
-To run the project, execute the following command:
-
-```sh
-❯ ❯ INSERT-RUN-COMMANDS
-```
-
-###  Tests
-
-Execute the test suite using the following command:
-
-```sh
-❯ ❯ INSERT-TEST-COMMANDS
-```
-
----
-
 ##  Project Roadmap
 
 - [X] **`Task 1`**: <strike>Implement feature one.</strike>
@@ -244,14 +206,10 @@ Contributions are welcome! Here are several ways you can contribute:
 
 ---
 
-##  License
-
-This project is protected under the [SELECT-A-LICENSE](https://choosealicense.com/licenses) License. For more details, refer to the [LICENSE](https://choosealicense.com/licenses/) file.
-
 ---
 
 ##  Acknowledgments
 
-- List any resources, contributors, inspiration, etc. here.
+- https://layers.to/layers/cljb0wzd3000jjv0c51egnan2
 
 ---
